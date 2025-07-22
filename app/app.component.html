@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+  <span class="navbar-brand">My TODO List</span>
+  <div class="navbar-nav">
+    <a class="nav-item nav-link"
+       [ngClass]="{ 'active-tab': currentRoute === '/add' }"
+       (click)="navigate('add')">ADD</a>
+
+    <a class="nav-item nav-link"
+       [ngClass]="{ 'active-tab': currentRoute === '/list' }"
+       (click)="navigate('list')">LIST</a>
+
+    <a class="nav-item nav-link"
+       [ngClass]="{ 'active-tab': currentRoute === '/favorite' }"
+       (click)="navigate('favorite')">FAVORITE TODO LIST</a>
+  </div>
+</nav>
+<div class="container">
+    <!-- <app-todo-form></app-todo-form>
+    <app-todo-list></app-todo-list> -->
+    <router-outlet></router-outlet>
+</div>

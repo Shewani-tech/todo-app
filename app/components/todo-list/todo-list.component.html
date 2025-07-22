@@ -1,0 +1,23 @@
+<div class="card shadow">
+    <h5 class="card-header">My Todo List</h5>
+    <div class="card-body">
+        <ul class="list-group" >
+
+            <li class="list-group-item" *ngFor="let item of listService.todoList; trackBy: trackById">
+
+                <div class="form-check d-inline">
+                    <input type="checkbox" class="form-check-input"  (change)="onChange()">
+                    <label for="complete" class="form-check-label lead">{{item?.title}}</label>
+                </div>
+                <div class="float-right">
+                    <span class="mx-3">{{item?.date | date}}</span>
+                    <i class="fa fa-heart mx-3 btn" (click)='isFavorite(item)'
+                        [ngClass]="item.isFavorite? 'text-danger' : '' "></i>
+
+                    <button class="btn btn-danger btn-sm mx-3" (click)="deleteTodo(item)">x</button>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
