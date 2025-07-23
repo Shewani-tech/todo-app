@@ -18,13 +18,13 @@ export class TodoService implements OnInit {
   deleteTodo(item: Todo) {
     let index = this.todoList.indexOf(item);
     this.todoList.splice(index, 1);
+    this.saveTodosToStorage();
 
-    // this.deletePopup.success(`Todo ${item.id} Deleted!`);
+
   }
 
   addTodo(title: string) {
     let id = Date.now();
-
     const item: Todo = {
       id: id,
       isCompleted: false,

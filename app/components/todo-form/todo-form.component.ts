@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoService } from '../../service/todo.service';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-todo-form',
@@ -12,15 +13,17 @@ import { FormsModule } from '@angular/forms';
 export class TodoFormComponent {
  todo = '';
 
-  constructor(public todoService: TodoService) {
+  constructor(public todoService: TodoService,private toasterService: ToastrService) {
       console.log('coming here');
    }
 
   ngOnInit(): void {
   }
 
-  onSubmit(){
+  onSubmit(item:string){
     this.todoService.addTodo(this.todo);
+      this.toasterService.error(`Todo ${item} Added!`, 'Added Successfuly');
+    this.todo='';
     
   }
 }
