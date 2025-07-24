@@ -26,10 +26,10 @@ export class TodoService implements OnInit {
   addTodo(title: string) {
     let id = Date.now();
     const item: Todo = {
-      id: id,
+      id: Date.now(),
       isCompleted: false,
       isFavorite: false,
-      date: new Date(),
+      date: new Date().toISOString(),
       title: title
     }
     this.todoList.unshift(item);
@@ -51,5 +51,9 @@ export class TodoService implements OnInit {
   }
   updateFav() {
     this.fav = JSON.parse(localStorage.getItem('favorite') ?? '[]');
+    console.log('this.fav from service is',this.fav);
+    
+   
+    
   }
 }

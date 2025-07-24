@@ -1,7 +1,6 @@
 export interface Todo {
-    id: number;
+    id:   number | string;  
     title: string;
     isCompleted: boolean;
     isFavorite: boolean;
-    date: Date;
-}
+    date: string;}

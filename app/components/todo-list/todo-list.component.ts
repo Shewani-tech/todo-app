@@ -17,58 +17,61 @@ import { log } from 'node:console';
 })
 export class TodoListComponent {
   listService = inject(TodoService);
+  fav: Todo[] = [];
   todos: Todo[] = [];
-  
+
   viewList: boolean = true;
-  completed: boolean = false;
+  isCompleted: boolean = false;
   constructor(private toasterService: ToastrService, public route: ActivatedRoute) {
-
-  
-   
-
   }
-  ngOnInit(){
-    
-     this.todos = this.listService.todoList;
-    console.log(this.todos);
-    
+  ngOnInit() {
+    this.todos = this.listService.todoList;
   }
-  onChange() {
-    this.completed = !this.completed;
-    this.completed ? this.toasterService.success(`Todo succesfully completed`, 'completed') : '';
-
+  onChange(item: any) {
+    item.isCompleted = !item.isCompleted;
+    if (item.isCompleted) {
+      this.toasterService.success(`Todo "${item.title}" marked as completed`, 'Completed');
+    }
   }
 
   deleteTodo(item: Todo) {
- 
     this.listService.deleteTodo(item);
     this.toasterService.error(`Todo ${item.id} Deleted!`, 'Deleted Successfuly');
-
-
   }
-  isFavorite(item:any) {
-   item.isFavorite = !item.isFavorite;
-    if (item.isFavorite) {
 
-      this.toasterService.success('Todo Added to Favorite');
-
-      this.listService.fav.unshift(item);
-
-      localStorage.setItem("favorite", JSON.stringify(this.listService.fav));
-
+ isFavorite(item: any) {
+  item.isFavorite = !item.isFavorite;
+  if (item.isFavorite) {
+    this.toasterService.success('Todo Added to Favorite');
+  //  if (!this.fav.some(todo => todo.id === item.id)) {
+      this.fav.push(item);
+      localStorage.setItem("favorite", JSON.stringify(this.fav));
+   // }
+  } else {
+    this.toasterService.error('Todo Removed from Favorite');
+    let index = this.fav.findIndex(favItem => favItem.id === item.id);
+    console.log('index is',index);
+    
+     if (index !== -1) {
+      this.fav.splice(index, 1);
+      localStorage.setItem("favorite", JSON.stringify(this.fav));
     }
-    else {
-      this.toasterService.error('Todo Removed from Favorite');
-      let index = this.listService.todoList.indexOf(item);
-      this.listService.fav.splice(index, 1);
+  }
+ this.listService.updateFav();
+}
 
-      localStorage.setItem("favorite", JSON.stringify(this.listService.fav));
+  trackById(index: number, todo: Todo) {
+    return todo.id;
+  }
+  toggleClass(item: any) {
 
-    }
-   }
-   trackById(index: number, todo: Todo) {
-  return todo.id;
+
+
+    return item.isCompleted
+      ? { 'list-group-item-success': true, 'border-primary': true }
+      : {};
+  }
 }
 
 
-}
+

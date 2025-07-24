@@ -1,23 +1,32 @@
 <div class="card shadow">
     <h5 class="card-header">My Todo List</h5>
     <div class="card-body">
-        <ul class="list-group" >
+        <ul class="list-group" *ngFor="let item of listService.todoList; trackBy: trackById">
 
-            <li class="list-group-item" *ngFor="let item of listService.todoList; trackBy: trackById">
+          <li class="list-group-item d-flex justify-content-between align-items-center"
+    [ngClass]="{ 'list-group-item-success': item.isCompleted, 'border-primary': item.isCompleted }">
 
-                <div class="form-check d-inline">
-                    <input type="checkbox" class="form-check-input"  (change)="onChange()">
-                    <label for="complete" class="form-check-label lead">{{item?.title}}</label>
-                </div>
-                <div class="float-right">
-                    <span class="mx-3">{{item?.date | date}}</span>
-                    <i class="fa fa-heart mx-3 btn" (click)='isFavorite(item)'
-                        [ngClass]="item.isFavorite? 'text-danger' : '' "></i>
+    <div class="d-flex align-items-center">
+        <!-- ❤️ Heart Icon on the Left -->
+        <i class="fa fa-heart mx-3 btn"
+           (click)="isFavorite(item)"
+           [ngClass]="item.isFavorite ? 'text-danger' : ''"></i>
 
-                    <button class="btn btn-danger btn-sm mx-3" (click)="deleteTodo(item)">x</button>
-                </div>
-            </li>
+        <!-- ✅ Checkbox and Label -->
+        <div class="form-check d-inline">
+            <input type="checkbox" class="form-check-input" (change)="onChange(item)">
+            <label class="form-check-label lead" [class.text-decoration-line-through]="item.isCompleted">
+                {{ item?.title }}
+            </label>
+        </div>
+    </div>
 
+    <!-- 📅 Date and Delete Button on the Right -->
+    <div class="d-flex align-items-center">
+        <span class="mx-3">{{ item?.date | date }}</span>
+        <button class="btn btn-danger btn-sm mx-3" (click)="deleteTodo(item)">x</button>
+    </div>
+</li>
         </ul>
     </div>
 </div>
