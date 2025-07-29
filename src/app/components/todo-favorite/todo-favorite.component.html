@@ -1,0 +1,11 @@
+<div class="card shadow">
+    <h5 class="card-header">Favorite</h5>
+    <div class="card-body">
+        <ul class="list-group" >
+            <li class="list-group-item" *ngFor="let item of listService.fav;">
+                {{item.title}}
+            </li>
+
+        </ul>
+    </div>
+</div>
